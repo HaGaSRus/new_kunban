@@ -29,9 +29,9 @@ function Column(props) {
             {provided => (
                 <Container {...provided.draggableProps} ref={provided.innerRef}>
                     <Title {...provided.dragHandleProps}>{props.column.title}</Title>
-                    <Droppable droppableId={props.column.id} ref={provided.innerRef}>
+                    <Droppable droppableId={props.column.id} type="task">
                         {provided => (
-                        <TaskList>
+                        <TaskList {...provided.droppableProps} ref={provided.innerRef}>
                             {
                                 props.tasks.map((task, index) => (
                                     <Task key={task.id} task={task} index={index} columnId={props.column.id} />

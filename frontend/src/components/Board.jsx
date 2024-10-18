@@ -21,9 +21,55 @@ function Board(props) {
         return data.board
     }
 
-    function onDragEnd() {
-
+    function onDragEnd(result) {
+        const { destination, source, draggableId, type } = result;
+    
+        if (!destination) {
+            return;
+        }
+    
+        if (destination.droppableId === source.droppableId && destination.index === source.index) {
+            return;
+        }
+    
+        if (type === 'column') {
+            const newColumnOrder = Array.from(board.columnOrder);
+            newColumnOrder.splice(source.index, 1);
+            newColumnOrder.splice(destination.index, 0, draggableId);
+    
+            setBoard({
+                ...board,
+                columnOrder: newColumnOrder,
+            });
+    
+            return;
+        }
+        
+        const start = board.columns[source.droppableId]; // Исправлено на source.droppableId
+        const finish = board.columns[destination.droppableId]; // Исправлено на destination.droppableId
+    
+        if (start === finish) {
+            const newTaskIds = Array.from(start.taskIds);
+            newTaskIds.splice(source.index, 1);
+            newTaskIds.splice(destination.index, 0, draggableId);
+    
+            const newColumn = {
+                ...start,
+                taskIds: newTaskIds
+            };
+    
+            setBoard({
+                ...board,
+                columns: {
+                    ...board.columns,
+                    [newColumn.id]: newColumn
+                }
+            });
+    
+            return;
+        }
     }
+    
 
     return (
     <DragDropContext onDragEnd={onDragEnd}>
