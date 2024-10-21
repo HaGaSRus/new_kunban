@@ -25,6 +25,14 @@ const TaskList = styled.div`
 `;
 
 function Column(props) {
+    function deleteColumn(columnId, index) {
+        const columnTasks = props.board.columns[columnId].taskIds;
+
+        const finalTasks = columnTasks.reduce((previousValue, currentValue) => {
+
+        }, props.board.tasks);
+    }
+
     return (
         <Draggable draggableId={props.column.id} index={props.index}>
             {provided => (
